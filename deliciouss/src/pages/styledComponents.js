@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const Wrapper = styled.div`
   margin: 4rem 0rem;
@@ -50,7 +51,7 @@ export const List = styled.div`
   margin: 2rem 0rem;
 `;
 
-export const Grid = styled.div`
+export const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   grid-gap: 3rem;
@@ -93,5 +94,48 @@ export const FormStyled = styled.form`
     left: 0%;
     transform: translate(100%, -50%);
     color: red;
+  }
+`;
+
+export const DetailWrapper = styled.div`
+  margin-top: 10rem;
+  margin-bottom: 5rem;
+  display: flex;
+  .active {
+    background: linear-gradient(35deg, #494949, #313131);
+    color: white;
+  }
+  h2 {
+    margin-bottom: 1.2rem;
+  }
+  li {
+    font-size: 1.2rem;
+    line-height: 2.5rem;
+  }
+  ul {
+    margin-top: 2rem;
+  }
+`;
+
+export const RecipeBtn = styled.button`
+  padding: 1rem 2rem;
+  color: #313131;
+  background: white;
+  border: 2px solid black;
+  margin-right: 2rem;
+  font-weight: 600;
+`;
+
+export const Info = styled.div`
+  margin-left: 10rem;
+`;
+
+export const Nav = styled.div`
+  padding: 1rem 0rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  svg {
+    font-size: 2rem;
   }
 `;
