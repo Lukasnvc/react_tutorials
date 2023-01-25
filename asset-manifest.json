@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react_tutorials/deliciouss/static/css/main.1fca02bf.css",
+    "main.js": "/react_tutorials/deliciouss/static/js/main.809e2d24.js",
+    "index.html": "/react_tutorials/deliciouss/index.html",
+    "main.1fca02bf.css.map": "/react_tutorials/deliciouss/static/css/main.1fca02bf.css.map",
+    "main.809e2d24.js.map": "/react_tutorials/deliciouss/static/js/main.809e2d24.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1fca02bf.css",
+    "static/js/main.809e2d24.js"
+  ]
+}
