@@ -1,89 +1,90 @@
-import React, { useEffect, useState } from "react";
-import { useRef } from "react";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { MdDone } from "react-icons/md";
-import { Todo } from "../model";
-import { Draggable } from "react-beautiful-dnd";
-import './styles.css'
+import { useState, useRef, useEffect } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { MdDone } from 'react-icons/md';
+import { Todo } from '../model';
+import './styles.css';
+import TodoList from './TodoList';
 
-const SingleTodo: React.FC<{
-  index: number;
+
+interface Props {
   todo: Todo;
-  todos: Array<Todo>;
-  setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-}> = ({ index, todo, todos, setTodos }) => {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  index: number;
+}
+
+const SingleTodo = ({ todo, todos, setTodos, index }: Props) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [edit]);
-
-  const handleEdit = (e: React.FormEvent, id: number) => {
-    e.preventDefault();
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
-    );
-    setEdit(false);
+  const handleDone = (id: number) => {
+    setTodos(todos.map((todo) => todo.id === id ? { ...todo, isDone: !todo.isDone } : todo))
   };
 
   const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id))
   };
 
-  const handleDone = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
+  const handleEdit = (e: React.FormEvent, id: number) => {
+    e.preventDefault()
+    todos.map((todo) => (
+      todo.id === id ? { ...todo, todo: editTodo } : todo
+    ));
+    setEdit(false)
   };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [edit])
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided, snapshot) => (
-        <form
-          onSubmit={(e) => handleEdit(e, todo.id)}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+      {
+        (provided) => (
+          <form
+          className='todos_single'
+            onSubmit={(e) => handleEdit(e, todo.id)}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}  
         >
           {edit ? (
             <input
+              ref={inputRef}
               value={editTodo}
               onChange={(e) => setEditTodo(e.target.value)}
-              className="todos__single--text"
-              ref={inputRef}
-            />
-          ) : todo.isDone ? (
-            <s className="todos__single--text">{todo.todo}</s>
+              className='todos_single--text' />
           ) : (
-            <span className="todos__single--text">{todo.todo}</span>
-          )}
+            todo.isDone ? (
+              <s className='todos_single--text'>{todo.todo}</s>
+          ):
+            (
+              <span className='todos_single--text'>{todo.todo}</span>
+          ))}
+         
+        
           <div>
-            <span
-              className="icon"
-              onClick={() => {
-                if (!edit && !todo.isDone) {
-                  setEdit(!edit);
-                }
+            <span className='icon' onClick={() => {
+              if (!edit && !todo.isDone) {
+                setEdit(!edit)
               }}
-            >
-              <AiFillEdit />
+            }>
+              <AiFillEdit/>
             </span>
-            <span className="icon" onClick={() => handleDelete(todo.id)}>
-              <AiFillDelete />
+            <span className='icon' onClick={() => handleDelete(todo.id)}>
+              <AiFillDelete/>
             </span>
-            <span className="icon" onClick={() => handleDone(todo.id)}>
-              <MdDone />
+            <span className='icon' onClick={() => handleDone(todo.id)}>
+              <MdDone/>
             </span>
           </div>
-        </form>
-      )}
-    </Draggable>
-  );
-};
+          </form>
+        )
+      }
+      </Draggable>
+  )
+}
 
-export default SingleTodo;
+export default SingleTodo
